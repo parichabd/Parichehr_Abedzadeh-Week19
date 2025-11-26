@@ -1,8 +1,14 @@
-import { useTitle } from "../../Hooks/useTitle";
+import SearchBar from "./SearchBar";
+
+import styles from "./Products.module.css"
 
 function Products() {
-  useTitle("Products");
-  return <div>Products</div>;
+
+  return (
+    <div className={styles.products}>
+      <SearchBar />
+    </div>
+  );
 }
 
 export default Products;

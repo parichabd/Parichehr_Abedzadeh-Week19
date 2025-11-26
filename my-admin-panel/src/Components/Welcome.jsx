@@ -15,7 +15,7 @@ function Welcome() {
         <h1 className={styles.title}>Welcome Back</h1>
         <p className={styles.subtitle}>Manage your products with confidence</p>
         <button className={styles.button} onClick={LoginHandler}>
-          Let's Go!
+          Let's Go
         </button>
       </div>
     </div>
