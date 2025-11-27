@@ -116,13 +116,13 @@
 
 @media (max-width: 480px) {
   .card {
-    width: 90vw; /* عرض کارت تقریبا 90 درصد عرض صفحه موبایل */
-    height: auto; /* ارتفاع خودکار برای محتوای بیشتر */
+    width: 90vw;
+    height: auto; 
     padding: 20px 15px;
   }
 
   .inputs input {
-    width: 100%; /* ورودی‌ها عرض کامل کارت را بگیرند */
+    width: 100%; 
     font-size: 13px;
     padding: 14px 10px;
   }

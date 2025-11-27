@@ -1,117 +1,23 @@
-.userBox {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: #e0f2fe;
-  padding: 6px 12px;
-  border-radius: 10px;
-  min-width: 150px;
-}
-
-.avatar {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1px solid #2563eb;
-}
-
-.text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.1;
-}
-
-.name {
-  font-weight: 600;
-  font-size: 14px;
-  color: #1e40af;
-}
-
-.role {
-  font-size: 12px;
-  color: #3b82f6;
-}
-
-.searchBox {
-  position: relative;
-  flex: 1;
-  margin-top: 2rem;
-}
-.icon {
-  position: absolute;
-  right: 14px;
-  top: 50%; /* سنتر عمودی دقیق */
-  transform: translateY(-50%);
-  pointer-events: none;
-  color: #00000088; /* نیازی به رنگ دهی JSX نیست */
-}
-
-.input {
-  width: 100%;
-  height: 68px;
-  padding: 10px 48px 10px 14px; /* فضای کافی سمت راست برای آیکون */
-  border-radius: 16px;
-  border: 1px solid #e4e4e4;
-  font-size: 14px;
-  outline: none;
-  direction: rtl; /* اگر placeholder فارسی است، بهتره rtl باشه */
-  text-align: right; /* متن از سمت راست شروع بشه */
-  color: #000;
-}
-
-.icon img {
-  width: 18px;
-  opacity: 0.6;
-}
-
-.input::placeholder {
-  color: #00000099;
-}
-
 .wrapper {
   display: flex;
-  /* ارتفاع دو بخش را کاملاً برابر میکنه */
   width: 100%;
   max-width: 1340px;
-  padding: 0; /* padding wrapper حذف، چون دو بخش باید بچسبن */
+  padding: 0;
   margin: 0 auto;
-  box-sizing: border-box;
-}
-
-.searchBox {
-  position: relative;
-  flex: 1;
-  margin-top: 2rem;
-}
-
-.input {
-  width: 100%;
-  height: 68px;
-  padding: 10px 48px 10px 14px;
-  border-radius: 0 16px 16px 0; /* فقط از سمت راست گرد */
-  border: 1px solid #e4e4e4;
-  font-size: 14px;
-  outline: none;
-  color: #00000099;
-  direction: rtl;
-  text-align: right;
-  background: #f8fafc; /* رنگ مشابه userBox */
 }
 
 .userBox {
   display: flex;
   align-items: center;
   gap: 8px;
-  height: 68px; /* هم‌اندازه input */
+  height: 68px;
   padding: 6px 12px;
-  border-radius: 16px 0 0 16px; /* فقط از چپ گرد */
+  border-radius: 16px 0 0 16px;
   border: 1px solid #e4e4e4;
-  border-right: none; /* برای چسبیدن بدون خط وسط */
-  background: #f8fafc; /* دقیقاً مثل input */
+  border-right: none;
+  background: #f8fafc;
   margin-top: 2rem;
   min-width: 150px;
-  box-sizing: border-box;
 }
 
 .avatar {
@@ -119,7 +25,7 @@
   height: 46px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1px solid #e4e4e480; /* ملایم‌تر، چون رنگ باید شبیه input باشه */
+  border: 1px solid #e4e4e480;
 }
 
 .text {
@@ -137,7 +43,31 @@
 .role {
   font-size: 13px;
   margin-top: 3px;
-  color: #64748b; /* خاکستری مشابه placeholder */
+  color: #64748b;
+}
+
+.searchBox {
+  position: relative;
+  flex: 1;
+  margin-top: 2rem;
+}
+
+.input {
+  width: 100%;
+  height: 68px;
+  padding: 10px 48px 10px 14px;
+  border-radius: 0 16px 16px 0;
+  border: 1px solid #e4e4e4;
+  font-size: 14px;
+  outline: none;
+  color: #00000099;
+  direction: rtl;
+  text-align: right;
+  background: #f8fafc;
+}
+
+.input::placeholder {
+  color: #00000099;
 }
 
 .icon {
@@ -146,4 +76,41 @@
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
+  color: #00000088;
+}
+
+.icon img {
+  width: 18px;
+  opacity: 0.6;
+}
+
+.userBox {
+  position: relative;
+  cursor: pointer;
+}
+
+.userBox::after {
+  content: "تکمیل اطلاعات";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(3, 59, 115, 0.868);
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 16px 0 0 16px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.userBox:hover::after {
+  opacity: 1;
+  pointer-events: auto;
 }

@@ -1,42 +1,23 @@
-import React, { useReducer, useEffect } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import { Search } from "lucide-react";
-import styles from "./SearchBar.module.css";
+import { CiSearch } from "react-icons/ci";
+import { useTitle } from "../../Hooks/useTitle";
+import { UserContext } from "../../context/UserProvider";
 import AvatarImg from "../../assets/icons/icon-7797704_640.png";
-
-const initialState = {
-  query: "",
-  user: {
-    name: "پریچهر عابدزاده",
-    role: "مدیر",
-    avatar: AvatarImg,
-  },
-};
-
-function reducer(state, action) {
-  switch (action.type) {
-    case "SET_QUERY":
-      return { ...state, query: action.value };
-    case "SET_USER":
-      return { ...state, user: action.user };
-    default:
-      return state;
-  }
-}
+import styles from "./SearchBar.module.css";
 
 function SearchBar({ onSearch = () => {} }) {
+  const { user } = useContext(UserContext);
   const navigate = useNavigate();
-  const [state, dispatch] = useReducer(reducer, initialState);
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) navigate("/products");
-  }, []);
+  useTitle("Products");
 
-  const handleSearch = (value) => {
-    dispatch({ type: "SET_QUERY", value });
-    onSearch(value);
+  const displayName = user.name || "کاربر";
+  const displayAvatar = user.avatar || AvatarImg;
+
+  const handleUserBoxClick = () => {
+    navigate("/complete-profile");
   };
 
   return (
@@ -45,23 +26,27 @@ function SearchBar({ onSearch = () => {} }) {
 
       <div className={styles.searchBox}>
         <span className={styles.icon}>
-          <Search size={24} color={"#282828"} />
+          <CiSearch size={28} color={"#282828c6"} />
         </span>
-
         <input
           type="text"
           placeholder="جستوجو کالا"
           className={styles.input}
-          onChange={(e) => handleSearch(e.target.value)}
-          value={state.query}
+          onChange={(e) => onSearch(e.target.value)}
         />
       </div>
 
-      <div className={styles.userBox}>
-        <img src={state.user.avatar} alt="" className={styles.avatar} />
+      <div
+        className={styles.userBox}
+        onClick={handleUserBoxClick}
+        role="button"
+        tabIndex={0}
+        onKeyPress={(e) => e.key === "Enter" && handleUserBoxClick()}
+      >
+        <img src={displayAvatar} alt="آواتار" className={styles.avatar} />
         <div className={styles.text}>
-          <span className={styles.name}>{state.user.name}</span>
-          <span className={styles.role}>{state.user.role}</span>
+          <span className={styles.name}>{displayName}</span>
+          <span className={styles.role}>{user.role || "مدیر"}</span>
         </div>
       </div>
     </div>

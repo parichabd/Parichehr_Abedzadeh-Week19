@@ -1,9 +1,10 @@
-import { useReducer } from "react";
+import { useReducer, useContext } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import { useTitle } from "../Hooks/useTitle";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { toPersian } from "../Hooks/authMessages";
+import { UserContext } from "../context/UserProvider"; 
 
 import "react-toastify/dist/ReactToastify.css";
 import styles from "./LoginPage.module.css";
@@ -19,20 +20,11 @@ const initialState = {
 function reducer(state, action) {
   switch (action.type) {
     case "SET_FIELD":
-      return {
-        ...state,
-        [action.field]: action.value,
-      };
+      return { ...state, [action.field]: action.value };
     case "TOGGLE_SHOW_PASSWORD":
-      return {
-        ...state,
-        showPassword: !state.showPassword,
-      };
+      return { ...state, showPassword: !state.showPassword };
     case "TOGGLE_SHOW_CONFIRM_PASSWORD":
-      return {
-        ...state,
-        showConfirmPassword: !state.showConfirmPassword,
-      };
+      return { ...state, showConfirmPassword: !state.showConfirmPassword };
     case "RESET":
       return initialState;
     default:
@@ -43,8 +35,8 @@ function reducer(state, action) {
 function RegisterPage() {
   useTitle("Register");
   const navigate = useNavigate();
-
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { setUser } = useContext(UserContext); 
 
   const goToSignIn = () => {
     navigate("/sign-in");
@@ -90,29 +82,22 @@ function RegisterPage() {
     if (!validate()) return;
 
     try {
-      const registerResponse = await fetch(
-        "http://localhost:3000/auth/register",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            username: state.username,
-            password: state.password,
-          }),
-        }
-      );
+      const registerResponse = await fetch("http://localhost:3000/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          username: state.username,
+          password: state.password,
+        }),
+      });
 
       const registerData = await registerResponse.json();
 
       if (!registerResponse.ok) {
         toast.error(toPersian(registerData.message) || "ثبت نام با خطا مواجه شد.");
-
         if (registerData.message === "Username already exists") {
-          setTimeout(() => {
-            navigate("/sign-in");
-          }, 1500);
+          setTimeout(() => navigate("/sign-in"), 1500);
         }
-
         return;
       }
 
@@ -128,22 +113,29 @@ function RegisterPage() {
       const loginData = await loginResponse.json();
 
       if (!loginResponse.ok) {
-        toast.error(toPersian(loginData.message) || "ورود خودکار با خطا مواجه شد.");
+        toast.error(toPersian(loginData.message) || "ورود خودکار ناموفق بود.");
         return;
       }
 
-      if (loginData.token) {
-        localStorage.setItem("token", loginData.token);
-      }
+      localStorage.setItem("token", loginData.token);
 
-      toast.success("ثبت نام و ورود موفقیت‌آمیز بود!");
+
+      setUser({
+        name: state.username,
+        username: state.username,
+        phone: "",
+        avatar: null,
+        role: "مدیر",
+      });
+
+      toast.success("ثبت‌نام و ورود موفق! خوش آمدی " + state.username + "!");
       dispatch({ type: "RESET" });
 
       setTimeout(() => {
         navigate("/products");
       }, 1500);
     } catch (err) {
-      toast.error("ارتباط با سرور برقرار نشد.");
+      toast.error("مشکل ارتباط با سرور");
       console.error(err);
     }
   };
@@ -216,11 +208,7 @@ function RegisterPage() {
                 padding: 0,
               }}
             >
-              {state.showConfirmPassword ? (
-                <AiFillEyeInvisible />
-              ) : (
-                <AiFillEye />
-              )}
+              {state.showConfirmPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
             </button>
 
             <input
@@ -239,9 +227,7 @@ function RegisterPage() {
         </button>
 
         <p className={styles.linkWrapper} onClick={goToSignIn}>
-          <a className={styles.link} href="#">
-            حساب کاربری دارید؟
-          </a>
+          <a className={styles.link} href="#">حساب کاربری دارید؟</a>
         </p>
       </div>
     </div>

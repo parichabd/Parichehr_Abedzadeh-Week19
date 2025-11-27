@@ -1,10 +1,12 @@
-import { useReducer } from "react";
+import { useReducer, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useTitle } from "../Hooks/useTitle";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { toPersian } from "../Hooks/authMessages"; 
+import { toPersian } from "../Hooks/authMessages";
+import { UserContext } from "../context/UserProvider";
+
+import "react-toastify/dist/ReactToastify.css";
 import styles from "./SignIn.module.css";
 
 const initialState = {
@@ -16,15 +18,9 @@ const initialState = {
 function reducer(state, action) {
   switch (action.type) {
     case "SET_FIELD":
-      return {
-        ...state,
-        [action.field]: action.value,
-      };
+      return { ...state, [action.field]: action.value };
     case "TOGGLE_SHOW_PASSWORD":
-      return {
-        ...state,
-        showPassword: !state.showPassword,
-      };
+      return { ...state, showPassword: !state.showPassword };
     case "RESET":
       return initialState;
     default:
@@ -36,9 +32,10 @@ function SignIn() {
   useTitle("Sign In");
   const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { setUser } = useContext(UserContext); // اضافه شد
 
   const goToRegister = () => {
-    navigate("/register"); 
+    navigate("/register");
   };
 
   const handleChange = (e) => {
@@ -53,7 +50,7 @@ function SignIn() {
     const { username, password } = state;
 
     if (!username || !password) {
-      toast.error("لطفا همه فیلدها را پر کنید.");
+      toast.error("لطفاً همه فیلدها را پر کنید.");
       return;
     }
 
@@ -67,20 +64,28 @@ function SignIn() {
       const data = await response.json();
 
       if (!response.ok) {
-        toast.error(toPersian(data.message)); 
+        toast.error(toPersian(data.message));
         return;
       }
 
-      if (data.token) {
-        localStorage.setItem("token", data.token);
+      localStorage.setItem("token", data.token);
+
+
+      if (!localStorage.getItem("user")) {
+        setUser({
+          name: username,
+          username: username,
+          phone: "",
+          avatar: null,
+          role: "مدیر",
+        });
       }
 
-      toast.success("ورود موفقیت‌آمیز بود!");
+      toast.success("خوش آمدی " + username + "!");
       dispatch({ type: "RESET" });
       setTimeout(() => navigate("/products"), 1500);
-
     } catch (error) {
-      toast.error(toPersian(error.message));
+      toast.error("خطایی رخ داد");
       console.error(error);
     }
   };
@@ -129,9 +134,7 @@ function SignIn() {
         </button>
 
         <p className={styles.linkWrapper} onClick={goToRegister}>
-          <a className={styles.link} href="#">
-            ایجاد حساب کاربری!
-          </a>
+          <a className={styles.link} href="#">ایجاد حساب کاربری!</a>
         </p>
       </div>
     </div>
