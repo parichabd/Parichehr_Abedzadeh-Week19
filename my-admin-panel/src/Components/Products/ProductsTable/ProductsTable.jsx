@@ -1,8 +1,15 @@
+// src/components/ProductsTable/ProductsTable.jsx   (یا هر مسیری که داری)
+
 import { useState } from "react";
 import trashs from "../../../assets/icons/trash.png";
 import edit from "../../../assets/icons/edit.png";
+
+// هوک تبدیل اعداد — حتماً این فایل رو داشته باشی
+import { formatPrice, toPersianNumber } from "../../../Hooks/usePersianNumber";
+
 import styles from "./ProductsTable.module.css";
 
+// مودال ویرایش — بدون تغییر
 function EditModal({ product, onClose, onSave }) {
   const [form, setForm] = useState({
     name: product.name || "",
@@ -93,6 +100,7 @@ function EditModal({ product, onClose, onSave }) {
   );
 }
 
+// کامپوننت اصلی جدول
 function ProductsTable({ products = [], onEdit, onDelete }) {
   const [editingProduct, setEditingProduct] = useState(null);
 
@@ -122,9 +130,24 @@ function ProductsTable({ products = [], onEdit, onDelete }) {
               products.map((product) => (
                 <tr key={product.id}>
                   <td>{product.name}</td>
-                  <td>{product.quantity}</td>
-                  <td>{Number(product.price).toFixed(2)}</td>
-                  <td>{product.id}</td>
+
+                  {/* موجودی: فارسی */}
+                  <td>{toPersianNumber(product.quantity)}</td>
+
+                  {/* قیمت: فارسی + جداکننده + تومان در چپ */}
+                  <td className={styles.priceCell}>
+                    <span>{formatPrice(product.price)}</span>
+                    <p>تومان</p>
+                  </td>
+                  {/* شناسه کالا: کاملاً انگلیسی و لاتین */}
+                  <td
+                    dir="ltr"
+                    style={{ fontFamily: "monospace", fontSize: "14px" }}
+                  >
+                    {product.id}
+                  </td>
+
+                  {/* عملیات */}
                   <td className={styles.actions}>
                     <img
                       src={edit}
@@ -133,7 +156,7 @@ function ProductsTable({ products = [], onEdit, onDelete }) {
                     />
                     <img
                       src={trashs}
-                      alt="سطل آشغال"
+                      alt="حذف"
                       onClick={() => onDelete(product.id)}
                     />
                   </td>
@@ -145,7 +168,7 @@ function ProductsTable({ products = [], onEdit, onDelete }) {
                   colSpan="5"
                   style={{
                     textAlign: "center",
-                    padding: "50px",
+                    padding: "60px",
                     color: "#999",
                   }}
                 >
@@ -157,7 +180,7 @@ function ProductsTable({ products = [], onEdit, onDelete }) {
             <tr>
               <td
                 colSpan="5"
-                style={{ textAlign: "center", padding: "50px", color: "#aaa" }}
+                style={{ textAlign: "center", padding: "60px", color: "#aaa" }}
               >
                 در حال بارگذاری...
               </td>
@@ -166,6 +189,7 @@ function ProductsTable({ products = [], onEdit, onDelete }) {
         </tbody>
       </table>
 
+      {/* مودال ویرایش */}
       {editingProduct && (
         <EditModal
           product={editingProduct}
