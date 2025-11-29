@@ -1,0 +1,32 @@
+.ManagmentProducts {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1340px;
+  margin: 3rem auto;
+}
+
+.Managment{
+    display: flex;
+    gap: 12px;
+}
+
+.Managment h1{
+    font-weight: 400;
+    font-size: 24px;
+    color:#282828 ;
+    width: 200px;
+}
+
+
+.button button{
+    width: 132px;
+    height: 45px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: #55A3F0;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+

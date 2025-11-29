@@ -2,9 +2,9 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { CiSearch } from "react-icons/ci";
-import { useTitle } from "../../Hooks/useTitle";
-import { UserContext } from "../../context/UserProvider";
-import AvatarImg from "../../assets/icons/icon-7797704_640.png";
+import { useTitle } from "../../../Hooks/useTitle";
+import { UserContext } from "../../../context/UserProvider";
+import AvatarImg from "../../../assets/icons/icon-7797704_640.png";
 import styles from "./SearchBar.module.css";
 
 function SearchBar({ onSearch = () => {} }) {
