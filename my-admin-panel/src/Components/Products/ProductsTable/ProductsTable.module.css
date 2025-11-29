@@ -1,11 +1,60 @@
-.TableProducts {
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  width: 320px;
+  max-width: 90%;
+}
+
+.modalContent h2 {
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.modalContent form div {
+  margin-bottom: 1rem;
+}
+
+.modalContent label {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-weight: bold;
+}
+
+.modalContent input {
   width: 100%;
-  max-width: 1390px;
-  margin: 2rem auto;
-  height: 70px;
-  background-color: #f2f2f2;
-  justify-content: space-between;
-  border-radius: 30px 30px 0 0;
-  width: 100%;
-  max-width: 1390px;
+  padding: 0.4rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.modalContent button {
+  margin-right: 10px;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.modalContent button[type="submit"] {
+  background-color: #55A3F0;
+  color: #fff;
+}
+
+.modalContent button[type="button"] {
+  background-color: #ccc;
+  color: #333;
 }

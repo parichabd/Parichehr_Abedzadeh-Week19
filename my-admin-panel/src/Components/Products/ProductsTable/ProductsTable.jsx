@@ -1,10 +1,9 @@
-// import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 import trashs from "../../../assets/icons/trash.png";
 import edit from "../../../assets/icons/edit.png";
 
-import styles from "./ProductsTable.module.css"
+import styles from "./ProductsTable.module.css";
 
-function ProductsTable() {
+function ProductsTable({ products }) {
   return (
     <div>
       <table className={styles.TableProducts}>
@@ -17,22 +16,19 @@ function ProductsTable() {
             <th></th>
           </tr>
         </thead>
-        <tbody className="">
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>
-              {/* <DotLottieReact
-      src="https://lottie.host/c8b9dd91-e7a6-4471-aeae-0f3e99a208cf/ZMMMrVizVu.lottie"
-      loop
-      autoplay
-    /> */}
-              <img src={trashs} alt="سطل آشغال" />
-              <img src={edit} alt="ویرایش" />
-            </td>
-          </tr>
+        <tbody>
+          {products.map((product) => (
+            <tr key={product.id}>
+              <td>{product.name}</td>
+              <td>{product.quantity}</td>
+              <td>{product.price}</td>
+              <td>{product.id}</td>
+              <td>
+                <img src={trashs} alt="سطل آشغال" />
+                <img src={edit} alt="ویرایش" />
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
