@@ -1,7 +1,8 @@
 import SearchBar from "./SearchBar/SearchBar";
+import ManagmentProducts from "./ManagmentProducts/ManagmentProducts";
+import ProductsTable from "./ProductsTable/ProductsTable";
 
 import styles from "./Products.module.css"
-import ManagmentProducts from "./ManagmentProducts/ManagmentProducts";
 
 function Products() {
 
@@ -9,6 +10,7 @@ function Products() {
     <div className={styles.products}>
       <SearchBar />
       <ManagmentProducts/>
+      <ProductsTable/>
     </div>
   );
 }
