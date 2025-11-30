@@ -97,20 +97,6 @@ Feel free to reach out if you have any questions or suggestions!
 
 ```
 
-# More Info
-
-![App Screenshot](<./public/Shots/Screenshot%20(167).png>)
-![App Screenshot](<./public/Shots/Screenshot%20(168).png>)
-![App Screenshot](<./public/Shots/Screenshot%20(169).png>)
-![App Screenshot](<./public/Shots/Screenshot%20(170).png>)
-![App Screenshot](<./public/Shots/Screenshot%20(171).png>)
-![App Screenshot](<./public/Shots/Screenshot%20(172).png>)
-![App Screenshot](<./public/Shots/Screenshot%20(173).png>)
-![App Screenshot](<./public/Shots/Screenshot%20(174).png>)
-![App Screenshot](<./public/Shots/Screenshot%20(175).png>)
-![App Screenshot](<./public/Shots/Screenshot%20(176).png>)
-![App Screenshot](<./public/Shots/Screenshot%20(177).png>)
-
 ---
 
 ## Contact
