@@ -4,16 +4,21 @@ import ManagmentProducts from "./ManagmentProducts/ManagmentProducts";
 import ProductsTable from "./ProductsTable/ProductsTable";
 import ConfirmDialog from "./ManagmentProducts/ConfirmDialog";
 import { toast, ToastContainer } from "react-toastify";
+import { toPersianNumber } from "../../Hooks/usePersianNumber";
 import "react-toastify/dist/ReactToastify.css";
 import styles from "./Products.module.css";
 
 function Products() {
   const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]); // محصولات فیلتر شده
-  const [searchTerm, setSearchTerm] = useState(""); // متن جستجو
-
   const [confirmOpen, setConfirmOpen] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // تعداد محصولات در هر صفحه، برای صفحه اول 6، بقیه 10
+  const productsPerPage = currentPage === 1 ? 6 : 10;
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -41,7 +46,6 @@ function Products() {
         }
 
         setProducts(productList);
-        setFilteredProducts(productList); // مقدار اولیه برابر همه محصولات
       } catch (err) {
         console.error("خطا در fetch:", err);
         setProducts([]);
@@ -52,26 +56,26 @@ function Products() {
     loadProducts();
   }, []);
 
-  // فیلتر کردن محصولات بر اساس جستجو
-  useEffect(() => {
-    if (!searchTerm.trim()) {
-      setFilteredProducts(products);
-    } else {
-      const lowerSearch = searchTerm.trim().toLowerCase();
-      setFilteredProducts(
-        products.filter((product) =>
-          product.name.toLowerCase().includes(lowerSearch)
-        )
-      );
-    }
-  }, [searchTerm, products]);
+  // فیلتر محصولات براساس سرچ (نام کالا شامل متن سرچ باشد)
+  const filteredProducts = products.filter((p) =>
+    p.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
-  // هندلر تغییر مقدار جستجو از SearchBar
-  const handleSearch = (text) => {
-    setSearchTerm(text);
-  };
+  // محاسبه تعداد صفحات براساس محصولات فیلتر شده
+  const totalPages = Math.ceil(
+    filteredProducts.length <= 6 ? 1 : (filteredProducts.length - 6) / 10 + 1
+  );
 
-  // سایر توابع اضافه کردن، ویرایش، حذف و ... بدون تغییر
+  // بدست آوردن محصولات صفحه فعلی
+  const indexOfFirstProduct =
+    currentPage === 1 ? 0 : 6 + (currentPage - 2) * 10;
+  const indexOfLastProduct =
+    currentPage === 1 ? 6 : indexOfFirstProduct + 10;
+
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
 
   const handleAddProduct = async (newProduct) => {
     try {
@@ -150,18 +154,40 @@ function Products() {
     setProductToDelete(null);
   };
 
+  // رندر دکمه های صفحه بندی با اعداد فارسی
+  const renderPaginationButtons = () => {
+    const buttons = [];
+    for (let i = 1; i <= totalPages; i++) {
+      buttons.push(
+        <button
+          key={i}
+          className={i === currentPage ? styles.active : ""}
+          onClick={() => setCurrentPage(i)}
+          disabled={i === currentPage}
+        >
+          {toPersianNumber(i)}
+        </button>
+      );
+    }
+    return <div className={styles.pagination}>{buttons}</div>;
+  };
+
   return (
     <div className={styles.products}>
-      {/* حالا به SearchBar مقدار هندلر را می‌دهیم */}
-      <SearchBar onSearch={handleSearch} />
+      <SearchBar onSearch={(term) => {
+        setSearchTerm(term);
+        setCurrentPage(1); // بازگشت به صفحه اول هنگام جستجو
+      }} />
+
       <ManagmentProducts onAdd={handleAddProduct} />
 
-      {/* بجای products از filteredProducts استفاده می‌کنیم */}
       <ProductsTable
-        products={filteredProducts}
+        products={currentProducts}
         onEdit={handleEditProduct}
         onDelete={openConfirmDialog}
       />
+
+      {renderPaginationButtons()}
 
       <ConfirmDialog
         open={confirmOpen}

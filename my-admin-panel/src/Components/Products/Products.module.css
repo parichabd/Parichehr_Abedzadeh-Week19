@@ -3,3 +3,42 @@
     width: 100%;
     height: 100vh;
 }
+
+
+.pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+
+
+.pagination button {
+  background-color: #fff;
+  border: 2px solid #8D8D8D80;
+  margin: 0 10px;
+  border-radius: 50%;
+  width: 40px;      /* عرض ثابت */
+  height: 40px;     /* ارتفاع ثابت */
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;  /* سایز فونت مناسب */
+  line-height: 40px; /* برای وسط چین عمودی متن */
+  text-align: center;
+  padding: 0;       /* پدینگ حذف شد چون با width/height برابر */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.pagination button:hover {
+  background-color: #55A3F0;
+  color: #fff;
+  border: none;
+}
+
+.pagination button.active {
+  border: none;
+  background-color: #55A3F0;
+  color: #fff;
+  cursor: default;
+  pointer-events: none;
+  font-weight: 700;
+}
+
