@@ -32,7 +32,7 @@ function SignIn() {
   useTitle("Sign In");
   const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { setUser } = useContext(UserContext); // اضافه شد
+  const { setUser } = useContext(UserContext);
 
   const goToRegister = () => {
     navigate("/register");
@@ -69,7 +69,6 @@ function SignIn() {
       }
 
       localStorage.setItem("token", data.token);
-
 
       if (!localStorage.getItem("user")) {
         setUser({
@@ -134,7 +133,9 @@ function SignIn() {
         </button>
 
         <p className={styles.linkWrapper} onClick={goToRegister}>
-          <a className={styles.link} href="#">ایجاد حساب کاربری!</a>
+          <a className={styles.link} href="#">
+            ایجاد حساب کاربری!
+          </a>
         </p>
       </div>
     </div>

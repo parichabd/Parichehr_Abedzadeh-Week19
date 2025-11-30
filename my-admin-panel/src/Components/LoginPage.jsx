@@ -4,7 +4,7 @@ import { useTitle } from "../Hooks/useTitle";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { toPersian } from "../Hooks/authMessages";
-import { UserContext } from "../context/UserProvider"; 
+import { UserContext } from "../context/UserProvider";
 
 import "react-toastify/dist/ReactToastify.css";
 import styles from "./LoginPage.module.css";
@@ -36,7 +36,7 @@ function RegisterPage() {
   useTitle("Register");
   const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { setUser } = useContext(UserContext); 
+  const { setUser } = useContext(UserContext);
 
   const goToSignIn = () => {
     navigate("/sign-in");
@@ -82,19 +82,24 @@ function RegisterPage() {
     if (!validate()) return;
 
     try {
-      const registerResponse = await fetch("http://localhost:3000/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: state.username,
-          password: state.password,
-        }),
-      });
+      const registerResponse = await fetch(
+        "http://localhost:3000/auth/register",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            username: state.username,
+            password: state.password,
+          }),
+        }
+      );
 
       const registerData = await registerResponse.json();
 
       if (!registerResponse.ok) {
-        toast.error(toPersian(registerData.message) || "ثبت نام با خطا مواجه شد.");
+        toast.error(
+          toPersian(registerData.message) || "ثبت نام با خطا مواجه شد."
+        );
         if (registerData.message === "Username already exists") {
           setTimeout(() => navigate("/sign-in"), 1500);
         }
@@ -118,7 +123,6 @@ function RegisterPage() {
       }
 
       localStorage.setItem("token", loginData.token);
-
 
       setUser({
         name: state.username,
@@ -208,7 +212,11 @@ function RegisterPage() {
                 padding: 0,
               }}
             >
-              {state.showConfirmPassword ? <AiFillEyeInvisible /> : <AiFillEye />}
+              {state.showConfirmPassword ? (
+                <AiFillEyeInvisible />
+              ) : (
+                <AiFillEye />
+              )}
             </button>
 
             <input
@@ -227,7 +235,9 @@ function RegisterPage() {
         </button>
 
         <p className={styles.linkWrapper} onClick={goToSignIn}>
-          <a className={styles.link} href="#">حساب کاربری دارید؟</a>
+          <a className={styles.link} href="#">
+            حساب کاربری دارید؟
+          </a>
         </p>
       </div>
     </div>

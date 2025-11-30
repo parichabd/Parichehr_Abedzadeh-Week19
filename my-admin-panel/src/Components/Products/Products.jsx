@@ -14,10 +14,8 @@ function Products() {
   const [productToDelete, setProductToDelete] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
 
-  // تعداد محصولات در هر صفحه، برای صفحه اول 6، بقیه 10
   const productsPerPage = currentPage === 1 ? 6 : 10;
 
   useEffect(() => {
@@ -56,21 +54,17 @@ function Products() {
     loadProducts();
   }, []);
 
-  // فیلتر محصولات براساس سرچ (نام کالا شامل متن سرچ باشد)
   const filteredProducts = products.filter((p) =>
     p.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // محاسبه تعداد صفحات براساس محصولات فیلتر شده
   const totalPages = Math.ceil(
     filteredProducts.length <= 6 ? 1 : (filteredProducts.length - 6) / 10 + 1
   );
 
-  // بدست آوردن محصولات صفحه فعلی
   const indexOfFirstProduct =
     currentPage === 1 ? 0 : 6 + (currentPage - 2) * 10;
-  const indexOfLastProduct =
-    currentPage === 1 ? 6 : indexOfFirstProduct + 10;
+  const indexOfLastProduct = currentPage === 1 ? 6 : indexOfFirstProduct + 10;
 
   const currentProducts = filteredProducts.slice(
     indexOfFirstProduct,
@@ -154,7 +148,6 @@ function Products() {
     setProductToDelete(null);
   };
 
-  // رندر دکمه های صفحه بندی با اعداد فارسی
   const renderPaginationButtons = () => {
     const buttons = [];
     for (let i = 1; i <= totalPages; i++) {
@@ -174,10 +167,12 @@ function Products() {
 
   return (
     <div className={styles.products}>
-      <SearchBar onSearch={(term) => {
-        setSearchTerm(term);
-        setCurrentPage(1); // بازگشت به صفحه اول هنگام جستجو
-      }} />
+      <SearchBar
+        onSearch={(term) => {
+          setSearchTerm(term);
+          setCurrentPage(1);
+        }}
+      />
 
       <ManagmentProducts onAdd={handleAddProduct} />
 
